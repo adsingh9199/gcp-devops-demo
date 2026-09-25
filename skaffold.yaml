@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta7
+kind: Config
+
+metadata:
+  name: devops-demo
+
+manifests:
+  rawYaml:
+  - kubernetes/deployment.yaml
+  - kubernetes/service.yaml
+
+deploy:
+  kubectl: {}

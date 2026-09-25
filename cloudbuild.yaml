@@ -1,0 +1,99 @@
+steps:
+
+# ==========================================================
+# STEP 1 - Install dependencies and run Unit Tests
+# ==========================================================
+
+- id: "Unit Tests"
+
+  name: "python:3.12-slim"
+
+  entrypoint: "bash"
+
+  args:
+  - "-c"
+  - |
+    pip install --quiet -r requirements.txt
+
+    cd app
+
+    pytest \
+      -v \
+      test_app.py
+
+
+# ==========================================================
+# STEP 2 - Static Application Security Testing
+# ==========================================================
+
+- id: "SAST Security Scan"
+
+  name: "python:3.12-slim"
+
+  entrypoint: "bash"
+
+  args:
+  - "-c"
+  - |
+    pip install --quiet bandit
+
+    bandit \
+      -r app \
+      -ll
+
+
+# ==========================================================
+# STEP 3 - Build Docker image
+# ==========================================================
+
+- id: "Docker Build"
+
+  name: "gcr.io/cloud-builders/docker"
+
+  args:
+  - "build"
+  - "-t"
+  - "asia-south1-docker.pkg.dev/$PROJECT_ID/devops-demo/demo-app:$SHORT_SHA"
+  - "."
+
+
+# ==========================================================
+# STEP 4 - Push image to Artifact Registry
+# ==========================================================
+
+- id: "Push Artifact"
+
+  name: "gcr.io/cloud-builders/docker"
+
+  args:
+  - "push"
+  - "asia-south1-docker.pkg.dev/$PROJECT_ID/devops-demo/demo-app:$SHORT_SHA"
+
+
+# ==========================================================
+# STEP 5 - Create Cloud Deploy release
+# ==========================================================
+
+- id: "Deploy DEV"
+
+  name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+
+  entrypoint: "gcloud"
+
+  args:
+  - "deploy"
+  - "releases"
+  - "create"
+  - "release-$SHORT_SHA"
+  - "--delivery-pipeline=devops-demo"
+  - "--region=asia-south1"
+  - "--images=demo-image=asia-south1-docker.pkg.dev/$PROJECT_ID/devops-demo/demo-app:$SHORT_SHA"
+
+
+images:
+
+- "asia-south1-docker.pkg.dev/$PROJECT_ID/devops-demo/demo-app:$SHORT_SHA"
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,57 @@
+steps:
+
+# ==========================================================
+# Unit Tests
+# ==========================================================
+
+- id: "Unit Tests"
+
+  name: "python:3.12-slim"
+
+  entrypoint: "bash"
+
+  args:
+  - "-c"
+  - |
+    pip install --quiet -r requirements.txt
+
+    cd app
+
+    pytest \
+      -v \
+      test_app.py
+
+
+# ==========================================================
+# Static Application Security Testing
+# ==========================================================
+
+- id: "SAST Security Scan"
+
+  name: "python:3.12-slim"
+
+  entrypoint: "bash"
+
+  args:
+  - "-c"
+  - |
+    pip install --quiet bandit
+
+    bandit \
+      -r app \
+      -ll
+
+
+# ==========================================================
+# Validate Dockerfile can build
+# ==========================================================
+
+- id: "Docker Build Validation"
+
+  name: "gcr.io/cloud-builders/docker"
+
+  args:
+  - "build"
+  - "-t"
+  - "devops-pr-validation"
+  - "."

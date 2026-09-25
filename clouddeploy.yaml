@@ -1,0 +1,25 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+
+metadata:
+  name: devops-demo
+
+description: DevOps DEV deployment pipeline
+
+serialPipeline:
+  stages:
+
+  - targetId: dev
+
+
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+
+metadata:
+  name: dev
+
+description: DEV GKE Environment
+
+gke:
+  cluster: projects/s-0-009943/locations/asia-south1-c/clusters/demo-test-cluster
