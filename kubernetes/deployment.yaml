@@ -20,6 +20,11 @@ spec:
         app: devops-demo
 
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
       containers:
 
       - name: demo-app
@@ -42,11 +47,6 @@ spec:
             cpu: "500m"
             memory: "256Mi"
 
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 10001
-          runAsGroup: 10001
-          fsGroup: 10001
 
         readinessProbe:
           httpGet:
