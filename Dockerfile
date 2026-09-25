@@ -8,9 +8,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app/ .
 
-RUN useradd --create-home --uid 10001 appuser
+RUN groupadd --gid 10001 appgroup && \
+    useradd --uid 10001 \
+            --gid 10001 \
+            --create-home \
+            --shell /usr/sbin/nologin \
+            appuser
+RUN chown -R 10001:10001 /app
 
-USER 10001
+USER 10001:10001
 
 EXPOSE 8080
 
