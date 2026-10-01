@@ -10,6 +10,7 @@ metadata:
 
 spec:
   type: LoadBalancer
+  loadBalancerIP: "10.160.0.45"
 
 
   selector:
