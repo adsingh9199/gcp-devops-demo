@@ -38,7 +38,7 @@ app.get("/health", (req, res) => {
     application: "node-sample-api",
     applicationVersion: APP_VERSION,
     environment: ENVIRONMENT,
-    podName: process.env.HOSTNAME || "local",
+  //  podName: process.env.HOSTNAME || "local",
     timestamp: new Date().toISOString()
   });
 });
@@ -53,7 +53,7 @@ app.get("/api/data", (req, res) => {
     method: "GET",
     applicationVersion: APP_VERSION,
     environment: ENVIRONMENT,
-    podName: process.env.HOSTNAME || "local",
+  //  podName: process.env.HOSTNAME || "local",
     data: sampleData
   });
 });
