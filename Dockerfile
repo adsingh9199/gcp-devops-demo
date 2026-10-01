@@ -1,23 +1,17 @@
-FROM python:3.12-slim
+FROM node:22-alpine
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY ./node-sample-api/package*.json ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN npm install --omit=dev
 
-COPY app/ .
+COPY ./node-sample-api/server.js .
 
-RUN groupadd --gid 10001 appgroup && \
-    useradd --uid 10001 \
-            --gid 10001 \
-            --create-home \
-            --shell /usr/sbin/nologin \
-            appuser
-RUN chown -R 10001:10001 /app
-
-USER 10001:10001
+ENV PORT=8080
+ENV APP_VERSION=1.0.0
+ENV ENVIRONMENT=development
 
 EXPOSE 8080
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "app:app"]
+CMD ["node", "server.js"]

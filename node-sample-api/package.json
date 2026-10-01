@@ -1,0 +1,12 @@
+{
+  "name": "node-sample-api",
+  "version": "1.0.0",
+  "description": "Sample Node.js GET and POST API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
