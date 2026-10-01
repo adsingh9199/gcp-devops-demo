@@ -12,7 +12,7 @@ spec:
     name: devops-demo
 
   minReplicas: 2
-  maxReplicas: 30
+  maxReplicas: 100
 
   metrics:
     - type: Resource
