@@ -8,6 +8,7 @@ manifests:
   rawYaml:
   - kubernetes/deployment.yaml
   - kubernetes/service.yaml
+  - kubernetes/hpa.yaml
 
 deploy:
   kubectl: {}
