@@ -9,7 +9,7 @@ RUN npm install --omit=dev
 COPY ./node-sample-api/server.js .
 
 ENV PORT=8080
-ENV APP_VERSION=1.0.0
+ENV APP_VERSION=2.0.0
 ENV ENVIRONMENT=development
 
 EXPOSE 8080
