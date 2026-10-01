@@ -6,9 +6,11 @@ metadata:
   namespace: demo
   annotations:
       cloud.google.com/load-balancer-type: Internal
+      cloud.google.com/neg: '{"exposed_ports": {"8080":{"name": "devops-demo-neg-8080"}}}'
 
 spec:
   type: LoadBalancer
+
 
   selector:
     app: devops-demo
